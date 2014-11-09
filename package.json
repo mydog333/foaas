@@ -10,10 +10,9 @@
   "repository": "",
   "author": "",
   "license": "BSD",
-
   "dependencies": {
-    "coffee-script" : "latest",
-    "express" : "3.0.0",
+    "coffee-script": "~1.8.0",
+    "express": "3.0.0",
     "sanitizer": "latest",
     "newrelic": "latest"
   }
