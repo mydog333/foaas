@@ -10,7 +10,7 @@
 
   helpers = require('./lib/helpers');
 
-  templateHTML = function(topPart, bottomPart) {
+  templateHTML = function(topPart, bottomPart,imagePath) {
     return '<html> '+
     '<head> '+
       '<title>Meme Service</title> '+
@@ -25,8 +25,9 @@
         'var topPart = "' + sanitizer.escape(topPart) + '"; '+
         'var bottomPart = "' + sanitizer.escape(bottomPart) + '"; '+
         'var myImage = new Image(); '+
-        'myImage.src ="/images/fat-bastard.jpg"; '+
-        'myImage.width = 400; myImage.height = 400; '+
+        'myImage.src ="'+imagePath+'"; '+
+        'myImage.width = 400; ' +
+        'myImage.height = 400; '+
         'var c = document.getElementById("memeCanvas"); '+
         'var ctx = c.getContext("2d"); '+
         'ctx.font="50px Impact"; '+
@@ -44,27 +45,27 @@
     '</html>';
   };
 
-  templateXML = function(message, subtitle) {
-    return '<?xml version="1.0" encoding="UTF-8"?> <foaas:response xmlns:foaas="http://foaas.com/fuckoff"> <foaas:message>' + helpers.escapeXML(message) + '</foaas:message> <foaas:subtitle>' + helpers.escapeXML(subtitle) + '</foaas:subtitle> </foaas:response>';
-  };
+  // templateXML = function(message, subtitle) {
+  //   return '<?xml version="1.0" encoding="UTF-8"?> <foaas:response xmlns:foaas="http://foaas.com/fuckoff"> <foaas:message>' + helpers.escapeXML(message) + '</foaas:message> <foaas:subtitle>' + helpers.escapeXML(subtitle) + '</foaas:subtitle> </foaas:response>';
+  // };
 
-  dooutput = function(res, message, subtitle) {
+  dooutput = function(res, topPart, bottomPart, imagePath) {
     return res.format({
-      "text/plain": function() {
-        return res.send("" + message + " " + subtitle);
-      },
-      "application/json": function() {
-        return res.send(JSON.stringify({
-          message: message,
-          subtitle: subtitle
-        }));
-      },
+      // "text/plain": function() {
+      //   return res.send("" + topPart + " " + bottomPart);
+      // },
+      // "application/json": function() {
+      //   return res.send(JSON.stringify({
+      //     message: message,
+      //     subtitle: subtitle
+      //   }));
+      // },
       "text/html": function() {
-        return res.send(templateHTML(message, subtitle));
-      },
-      "application/xml": function() {
-        return res.send(templateXML(message, subtitle));
+        return res.send(templateHTML(topPart, bottomPart, imagePath));
       }
+      // "application/xml": function() {
+      //   return res.send(templateXML(message, subtitle));
+      // }
     });
   };
 
@@ -122,179 +123,12 @@
     return dooutput(res, message, subtitle);
   });
 
-  app.get('/you/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck you, " + req.params.name + ".";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
+  app.get('/fat/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/fat-bastard.jpg");
   });
 
-  app.get('/this/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck this.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/that/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck that.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/everything/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck everything.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/everyone/:from', function(req, res) {
-    var message, subtitle;
-    message = "Everyone can go and fuck off.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/donut/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "" + req.params.name + ", go and take a flying fuck at a rolling donut.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/shakespeare/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "" + req.params.name + ", Thou clay-brained guts, thou knotty-pated fool, thou whoreson obscene greasy tallow-catch!";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/linus/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "" + req.params.name + ", there aren't enough swear-words in the English language, so now I'll have to call you perkeleen vittupää just to express my disgust and frustration with this crap.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/king/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "Oh fuck off, just really fuck off you total dickface. Christ " + req.params.name + ", you are fucking thick.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/pink/:from', function(req, res) {
-    var message, subtitle;
-    message = "Well, Fuck me pink.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/life/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck my life.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/chainsaw/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck me gently with a chainsaw, " + req.params.name + ". Do I look like Mother Teresa?";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/outside/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "" + req.params.name + ", why don't you go outside and play hide-and-go-fuck-yourself?";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/thanks/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck you very much.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/flying/:from', function(req, res) {
-    var message, subtitle;
-    message = "I don't give a flying fuck.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/fascinating/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fascinating story, in what chapter do you shut the fuck up?";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/madison/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "What you've just said is one of the most insanely idiotic things I have ever heard, " + req.params.name + ". At no point in your rambling, incoherent response were you even close to anything that could be considered a rational thought. Everyone in this room is now dumber for having listened to it. I award you no points " + req.params.name + ", and may God have mercy on your soul.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/cool/:from', function(req, res) {
-    var message, subtitle;
-    message = "Cool story, bro.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/field/:name/:from/:reference', function(req, res) {
-    var message, reference;
-    message = "And " + req.params.name + " said on to " + req.params.from + ", 'Verily, cast thine eyes upon the field in which I grow my fucks', and " + req.params.from + " gave witness onto the field, and saw that it was barren.";
-    reference = "- " + req.params.reference;
-    return dooutput(res, message, reference);
-  });
-
-  app.get('/nugget/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "Well " + req.params.name + ", aren't you a shining example of a rancid fuck-nugget.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/yoda/:name/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fuck off, you must, " + req.params.name + ".";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/ballmer/:name/:company/:from', function(req, res) {
-    var message, subtitle;
-    message = "Fucking " + req.params.name + " is a fucking pussy. I'm going to fucking bury that guy, I have done it before, and I will do it again. I'm going to fucking kill " + req.params.company + ".";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/what/:from', function(req, res) {
-    var message, subtitle;
-    message = "What the fuck?!";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/because/:from', function(req, res) {
-    var message, subtitle;
-    message = "Why? Because Fuck you, that's why.";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
-  });
-
-  app.get('/caniuse/:tool/:from', function(req, res) {
-    var message, subtitle;
-    message = "Can you use " + req.params.tool + "? Fuck no!";
-    subtitle = "- " + req.params.from;
-    return dooutput(res, message, subtitle);
+  app.get('/wat/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/wat.jpg");
   });
 
 
