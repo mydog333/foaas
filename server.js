@@ -97,24 +97,24 @@
     return res.end();
   });
 
-  app.get('/version', function(req, res) {
-    return res.format({
-      "text/plain": function() {
-        return res.send("FOAAS Version " + helpers.VERSION);
-      },
-      "application/json": function() {
-        return res.send(JSON.stringify({
-          version: helpers.VERSION
-        }));
-      },
-      "text/html": function() {
-        return res.send(templateHTML("Version " + helpers.VERSION, 'FOAAS'));
-      },
-      "application/xml": function() {
-        return res.send(templateXML("Version " + helpers.VERSION, 'FOAAS'));
-      }
-    });
-  });
+  // app.get('/version', function(req, res) {
+  //   return res.format({
+  //     // "text/plain": function() {
+  //     //   return res.send("FOAAS Version " + helpers.VERSION);
+  //     // },
+  //     // "application/json": function() {
+  //     //   return res.send(JSON.stringify({
+  //     //     version: helpers.VERSION
+  //     //   }));
+  //     // },
+  //     "text/html": function() {
+  //       return res.send(templateHTML("Version " + helpers.VERSION, 'FOAAS'));
+  //     },
+  //     // "application/xml": function() {
+  //     //   return res.send(templateXML("Version " + helpers.VERSION, 'FOAAS'));
+  //     // }
+  //   });
+  // });
 
   app.get('/off/:name/:from', function(req, res) {
     var message, subtitle;
@@ -129,6 +129,38 @@
 
   app.get('/wat/:top/:bottom', function(req, res) {
     return dooutput(res,req.params.top, req.params.bottom, "/images/wat.jpg");
+  });
+
+  app.get('/grumpycat/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/grumpycat.jpg");
+  });
+
+  app.get('/woody/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/happywoody.jpg");
+  });
+
+  app.get('/littlegirl/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/littlegirl.jpg");
+  });
+
+  app.get('/owl/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/owl.jpg");
+  });
+
+  app.get('/sadbear/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/sadbear.jpg");
+  });
+
+  app.get('/seal/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/seal.jpg");
+  });
+
+  app.get('/sucessbaby/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/sucessbaby.jpg");
+  });
+
+  app.get('/suspiciousdog/:top/:bottom', function(req, res) {
+    return dooutput(res,req.params.top, req.params.bottom, "/images/suspiciousdog.jpg");
   });
 
 
